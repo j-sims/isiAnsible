@@ -1,0 +1,22 @@
+- name: Collect set of facts in Isilon
+  hosts: localhost
+  connection: local
+  vars:
+    onefs_host: '172.16.10.10'
+    verify_ssl: False
+    api_user: 'root'
+    api_password: 'a'
+  tasks:
+  - name: Get attributes, access_zones and nodes of the Isilon cluster
+    dellemc_isilon_gatherfacts:
+      onefs_host: "{{onefs_host}}"
+      verify_ssl: "{{verify_ssl}}"
+      api_user: "{{api_user}}"
+      api_password: "{{api_password}}"
+      gather_subset:
+        - attributes
+        - access_zones
+        - nodes
+    register: subset_result
+  - debug:
+      var: subset_result
